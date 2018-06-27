@@ -15,6 +15,7 @@ public interface AddEditContract {
         void showEmptynote();
         void noteadded();
         void setNote(String note);
+        void setNoteDate(String noteDate);
         void showEntryList();
 
 

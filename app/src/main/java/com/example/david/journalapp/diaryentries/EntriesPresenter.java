@@ -1,9 +1,11 @@
 package com.example.david.journalapp.diaryentries;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.david.journalapp.data.Note;
+import com.example.david.journalapp.data.source.local.LocalDb;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,15 +21,17 @@ import java.util.List;
  * Created by david on 6/26/18.
  */
 
-public class EntriesPresenter  implements EntriesContract.Presenter{
+public class EntriesPresenter  implements EntriesContract.Presenter {
     private EntriesContract.view mView;
     private FirebaseAuth mAuth;
     private DatabaseReference mReference;
     private FirebaseDatabase mDatabase;
+    private LocalDb mDb;
     private List<Note> mNoteList;
 
-    public EntriesPresenter(EntriesContract.view view) {
+    public EntriesPresenter(EntriesContract.view view, Context applicationContext) {
         mView = view;
+        mDb = LocalDb.getLocalDb(applicationContext);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mReference = mDatabase.getReference().child(mAuth.getCurrentUser().getUid());
@@ -45,31 +49,18 @@ public class EntriesPresenter  implements EntriesContract.Presenter{
     }
 
     @Override
-    public  void loadEntries() {
+    public void loadEntries() {
         mNoteList = new ArrayList<>();
-        mReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        mNoteList = mDb.mNoteDaoDao().getAllEntries();
 
-//                GenericTypeIndicator<List<Note>> t = new GenericTypeIndicator<List<Note>>() {};
-//                mNoteList = dataSnapshot.getValue(t);
-            for (DataSnapshot snapshot:dataSnapshot.getChildren()){
-                mNoteList.add(snapshot.getValue(Note.class));
-                Log.i("LOAD","loading");
-            }
-            if (mNoteList.isEmpty()){
-                mView.showEmpyEntries();
-            }
-            mView.setAdapter(mNoteList);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        Log.i("List",mNoteList.size()+"");
+        if (mNoteList.isEmpty()) {
+            mView.showEmpyEntries();
+        }
+        mView.setAdapter(mNoteList);
 
     }
+
+
+
+
 }

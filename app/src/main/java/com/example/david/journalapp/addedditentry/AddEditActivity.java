@@ -19,6 +19,9 @@ public class AddEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_edit);
 
         mActionBar = getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setDisplayShowHomeEnabled(true);
+
         String noteId = getIntent().getStringExtra(AddEditFragment.ARGUMENT_EDIT_NOTE_ID);
         setToolbarTitle(noteId);
 
@@ -29,7 +32,7 @@ public class AddEditActivity extends AppCompatActivity {
             editFragment = AddEditFragment.newInstance();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),editFragment,R.id.mainFrame);
         }
-        mEditPresenter = new AddEditPresenter(editFragment);
+        mEditPresenter = new AddEditPresenter(editFragment,noteId,getApplicationContext());
     }
 
     private void setToolbarTitle(@Nullable String noteId) {
@@ -38,6 +41,12 @@ public class AddEditActivity extends AppCompatActivity {
         } else {
             mActionBar.setTitle(R.string.edit_note);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }

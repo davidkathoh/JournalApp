@@ -11,6 +11,7 @@ import com.example.david.journalapp.BaseView;
 public interface EntryDetailContract {
 
     interface view extends BaseView<Presenter> {
+        void showEditNote(String noteId);
 
 
     }
