@@ -24,6 +24,8 @@ android {
 
 dependencies {
     def room_version = "1.1.1"
+    def lifecycle_version = "1.1.1"
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -42,6 +44,8 @@ dependencies {
     testImplementation "android.arch.persistence.room:testing:$room_version"
 
     //liveData and ViewMOdel
-    implementation "android.arch.lifecycle:extensions:$room_version"
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    implementation "android.arch.lifecycle:common-java8:$lifecycle_version"
+
 }
 apply plugin: 'com.google.gms.google-services'

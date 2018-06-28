@@ -1,5 +1,7 @@
 package com.example.david.journalapp.entrydetail;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.example.david.journalapp.BasePresenter;
 import com.example.david.journalapp.BaseView;
 
@@ -23,6 +25,7 @@ public interface EntryDetailContract {
     interface Presenter extends BasePresenter {
         void editNote();
         void deleteNote();
+        void openNote(FragmentActivity activity);
 
 
 

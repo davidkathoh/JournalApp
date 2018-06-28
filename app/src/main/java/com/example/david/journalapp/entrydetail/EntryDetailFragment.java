@@ -58,6 +58,7 @@ public class EntryDetailFragment extends Fragment implements EntryDetailContract
         mNoteTextView = view.findViewById(R.id.tv_entry_title);
         mEditNote = view.findViewById(R.id.fab_edit_entry);
         setHasOptionsMenu(true);
+        mPresenter.openNote(getActivity());
         mEditNote.setOnClickListener(view1 ->mPresenter.editNote() );
 
 
@@ -67,7 +68,7 @@ public class EntryDetailFragment extends Fragment implements EntryDetailContract
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.subscribe();
+
     }
 
     @Override
@@ -111,7 +112,7 @@ public class EntryDetailFragment extends Fragment implements EntryDetailContract
     @Override
     public void showDeleteNote() {
         Toast.makeText(getContext(),R.string.diary_entry_deleted,Toast.LENGTH_LONG).show();
-        getActivity().finish();
+        //getActivity().finish();
 
     }
     @Override

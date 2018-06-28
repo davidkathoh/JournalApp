@@ -20,7 +20,6 @@ public abstract class LocalDb extends RoomDatabase{
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     LocalDb.class,"Note")
                     .fallbackToDestructiveMigration()
-                    .allowMainThreadQueries()
                     .build();
         }
         return INSTANCE;

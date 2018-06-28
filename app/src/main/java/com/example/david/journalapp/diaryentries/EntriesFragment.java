@@ -60,7 +60,7 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
         mAddButton = view.findViewById(R.id.fab_new_entry);
         mLinearLayout = view.findViewById(R.id.noEnty);
 
-        mPresenter.subscribe();
+        mPresenter.loadEntries(getActivity());
         mAddButton.setOnClickListener(view1 -> lauchAddActivity());
 
         return view;

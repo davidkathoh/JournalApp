@@ -1,9 +1,12 @@
 package com.example.david.journalapp.addedditentry;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.example.david.journalapp.data.Note;
 import com.example.david.journalapp.data.source.local.LocalDb;
+import com.example.david.journalapp.util.AppExecutors;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
@@ -40,18 +43,11 @@ public class AddEditPresenter  implements AddEditContract.Presenter{
 
     @Override
     public void subscribe() {
-        if (!isNewNote()){
-            populateNote();
-        }
+
 
     }
 
-    private void populateNote() {
 
-        Note note = mDb.mNoteDaoDao().getNote(mNoteId);
-        mView.setNote(note.getNotedescription());
-        mView.setNoteDate(note.getUpdateDate());
-    }
 
     @Override
     public void unsubscribe() {
@@ -71,13 +67,27 @@ public class AddEditPresenter  implements AddEditContract.Presenter{
       }
     }
 
+    @Override
+    public void populateTask(FragmentActivity fragmentActivity) {
+        if (!isNewNote()){
+            LiveData< Note> note = mDb.mNoteDaoDao().getNote(mNoteId);
+            note.observe(fragmentActivity,v->{
+                mView.setNote(v.getNotedescription());
+                mView.setNoteDate(v.getUpdateDate());
+            });
+        }
+
+    }
+
     public void createNote(String description){
         Note newNote = new Note(description);
         if (description.isEmpty()){
             mView.showEmptynote();
         }else {
-            mDb.mNoteDaoDao().saveNote(newNote);
-            mView.showEntryList();
+            AppExecutors.getInstance().diskIO().execute(()->{
+                mDb.mNoteDaoDao().saveNote(newNote);
+                mView.showEntryList();
+            });
 
         }
     }
@@ -85,6 +95,10 @@ public class AddEditPresenter  implements AddEditContract.Presenter{
         if (isNewNote()) {
             throw new RuntimeException("updateNote() was called but note is new.");
         }
-        mDb.mNoteDaoDao().upDateNote(new Note(mNoteId,note));
+        AppExecutors.getInstance().diskIO().execute(()->{
+            mDb.mNoteDaoDao().upDateNote(new Note(mNoteId,note));
+            mView.showEntryList();
+        });
+
     }
 }

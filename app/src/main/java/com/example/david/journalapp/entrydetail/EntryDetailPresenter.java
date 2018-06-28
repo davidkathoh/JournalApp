@@ -4,9 +4,11 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.example.david.journalapp.data.Note;
 import com.example.david.journalapp.data.source.local.LocalDb;
+import com.example.david.journalapp.util.AppExecutors;
 
 /**
  * Created by david on 6/27/18.
@@ -28,18 +30,19 @@ public class EntryDetailPresenter implements EntryDetailContract.Presenter{
 
     @Override
     public void subscribe() {
-        openNote();
+
     }
 
     @Override
     public void unsubscribe() {
 
     }
-    public void openNote(){
+    @Override
+    public void openNote(FragmentActivity fragmentActivity){
 
       LiveData<Note> mNote = mDb.mNoteDaoDao().getNote(noteId);
-      mNote.observe((LifecycleOwner) mContext, note -> {
-          mNote.removeObserver((Observer<Note>) this);
+      mNote.observe(fragmentActivity, note -> {
+         // mNote.removeObserver();
           mView.showDate(note.getUpdateDate());
           mView.showNote(note.getNotedescription());
       });
@@ -59,8 +62,11 @@ public class EntryDetailPresenter implements EntryDetailContract.Presenter{
 
     @Override
     public void deleteNote() {
-        mDb.mNoteDaoDao().deleteNote(noteId);
-        mView.showDeleteNote();
+        AppExecutors.getInstance().diskIO().execute(()->{
+            mDb.mNoteDaoDao().deleteNote(noteId);
+            mView.showDeleteNote();
+        });
+
 
     }
 }

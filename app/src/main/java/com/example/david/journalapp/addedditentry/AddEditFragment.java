@@ -45,6 +45,7 @@ public class AddEditFragment extends Fragment implements AddEditContract.view{
                              Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_add_edit, container, false);
     mNoteEditText = view.findViewById(R.id.ed_diary_note);
+    mPresenter.populateTask(getActivity());
     setHasOptionsMenu(true);
         return  view;
     }

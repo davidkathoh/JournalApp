@@ -3,13 +3,16 @@ package com.example.david.journalapp.diaryentries;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.example.david.journalapp.data.Note;
 import com.example.david.journalapp.data.source.local.LocalDb;
+import com.example.david.journalapp.util.EntriesViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,7 +49,7 @@ public class EntriesPresenter  implements EntriesContract.Presenter {
 
     @Override
     public void subscribe() {
-        loadEntries();
+
 
     }
 
@@ -56,9 +59,9 @@ public class EntriesPresenter  implements EntriesContract.Presenter {
     }
 
     @Override
-    public void loadEntries() {
-      final LiveData<List<Note>> mNoteList = mDb.mNoteDaoDao().getAllEntries();
-        mNoteList.observe((LifecycleOwner) mContext, notes -> {
+    public void loadEntries(FragmentActivity fragmentActivity) {
+        EntriesViewModel mNoteList = ViewModelProviders.of(fragmentActivity).get(EntriesViewModel.class);
+        mNoteList.getNotes().observe(fragmentActivity, notes -> {
             if (notes.isEmpty()) {
                 mView.showEmpyEntries();
             }

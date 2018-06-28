@@ -63,6 +63,7 @@
         android:gravity="start|center"
         android:text="@string/btn_login_with_google"
         android:textAlignment="textStart"
+        android:background="@drawable/rectangle_login_with_google"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

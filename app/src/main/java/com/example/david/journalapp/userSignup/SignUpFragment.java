@@ -4,6 +4,7 @@ package com.example.david.journalapp.userSignup;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
@@ -27,7 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 
-public class SignUpFragment extends Fragment  implements  SignUPContract.view{
+public class SignUpFragment extends Fragment  implements  SignUPContract.view, GoogleApiClient.OnConnectionFailedListener {
     private TextInputEditText mUserEmail;
     private TextInputEditText mUserPassWord;
     private TextInputEditText mUserName;
@@ -115,7 +117,7 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view{
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-                .enableAutoManage(getActivity(), (GoogleApiClient.OnConnectionFailedListener) this)
+                .enableAutoManage(getActivity(), this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .build();
         mGoogleApiClient.connect();
@@ -164,5 +166,10 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view{
     @Override
     public void setPresenter(SignUPContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        showErrorMessage();
     }
 }

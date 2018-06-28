@@ -1,6 +1,7 @@
 package com.example.david.journalapp.diaryentries;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.example.david.journalapp.BasePresenter;
 import com.example.david.journalapp.BaseView;
@@ -25,7 +26,8 @@ public interface EntriesContract {
 
     interface Presenter extends BasePresenter {
 
-        void loadEntries();
+        void loadEntries(FragmentActivity activity);
+
 
     }
 }

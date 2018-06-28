@@ -1,5 +1,7 @@
 package com.example.david.journalapp.addedditentry;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.example.david.journalapp.BasePresenter;
 import com.example.david.journalapp.BaseView;
 import com.example.david.journalapp.data.Note;
@@ -19,11 +21,13 @@ public interface AddEditContract {
         void showEntryList();
 
 
+
     }
 
     interface Presenter extends BasePresenter {
 
         void saveNote(String note);
+        void populateTask(FragmentActivity fragmentActivity);
 
     }
 }
