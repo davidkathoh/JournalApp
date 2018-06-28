@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.david.journalapp.R;
 
@@ -50,17 +51,18 @@ public class AddEditFragment extends Fragment implements AddEditContract.view{
 
     @Override
     public void showEmptynote() {
-
+        Toast.makeText(getContext(),R.string.empty_entry,Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void noteadded() {
+        Toast.makeText(getContext(),R.string.entry_added,Toast.LENGTH_LONG).show();
 
     }
 
     @Override
     public void setNote(String note) {
-
+        mNoteEditText.setText(note);
     }
 
     @Override

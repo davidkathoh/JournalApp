@@ -1,6 +1,7 @@
 package com.example.david.journalapp.data.source.local;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -26,4 +27,7 @@ public interface NoteDao {
 
     @Query("SELECT * from Note where mId =:noteId")
     Note getNote(String noteId);
+
+    @Query("DELETE from Note where mId = :uid")
+    void deleteNote(String uid);
 }

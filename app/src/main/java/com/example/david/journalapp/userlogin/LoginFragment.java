@@ -1,6 +1,7 @@
 package com.example.david.journalapp.userlogin;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.david.journalapp.R;
 import com.example.david.journalapp.diaryentries.EntriesActivity;
@@ -42,6 +44,7 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
     private static final int RC_SIGN_IN = 9001;
     private LoginContract.Presenter mLoginPresenter;
     private FirebaseAuth mAuth;
+    private ProgressDialog mProgressDialog;
 
 
     public LoginFragment() {
@@ -76,17 +79,22 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
 
     @Override
     public void showErrorMessage() {
-        Log.i("LOGIN","FAIL");
+
+        Toast.makeText(getContext(),R.string.error_connect_message,Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showLoadingIndicator() {
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage(getString(R.string.loading_message));
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.show();
 
     }
 
     @Override
     public void hideLoadingIndicator() {
-
+        mProgressDialog.hide();
     }
 
     @Override
@@ -114,12 +122,14 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
         mGoogleApiClient.connect();
     }
     public void loginWithGoogle(){
+        showLoadingIndicator();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -129,6 +139,7 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
+                hideLoadingIndicator();
               showErrorMessage();
                 // ...
             }
@@ -142,7 +153,11 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
+                        hideLoadingIndicator();
                         lauchMainActivity();
+                    }else {
+                        hideLoadingIndicator();
+                        showErrorMessage();
                     }
                 });
     }

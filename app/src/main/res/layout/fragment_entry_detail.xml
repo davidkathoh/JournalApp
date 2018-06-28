@@ -4,6 +4,8 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
     tools:context="com.example.david.journalapp.entrydetail.EntryDetailFragment">
     <LinearLayout
         android:id="@+id/ll_detail"
@@ -16,8 +18,10 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/tv_entry_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/hello_blank_fragment" />
         <TextView
+           android:padding="8dp"
             android:id="@+id/tv_entry_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +32,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 
 
 <android.support.design.widget.FloatingActionButton
-    android:id="@+id/fab_new_entry"
+    android:id="@+id/fab_edit_entry"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:layout_anchor="@id/ll_detail"

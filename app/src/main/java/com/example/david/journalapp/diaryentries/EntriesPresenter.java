@@ -40,6 +40,7 @@ public class EntriesPresenter  implements EntriesContract.Presenter {
 
     @Override
     public void subscribe() {
+        loadEntries();
 
     }
 

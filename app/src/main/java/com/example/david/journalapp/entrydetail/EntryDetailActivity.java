@@ -1,5 +1,6 @@
 package com.example.david.journalapp.entrydetail;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -16,6 +17,10 @@ public class EntryDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry_detail);
 
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+
         String noteId = getIntent().getStringExtra(EXTRA_NOTE_ID);
 
         EntryDetailFragment entryDetailFragment =
@@ -25,6 +30,11 @@ public class EntryDetailActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),entryDetailFragment,R.id.mainFrame);
 
         }
-        mPresenter = new EntryDetailPresenter(entryDetailFragment,noteId);
+        mPresenter = new EntryDetailPresenter(entryDetailFragment,noteId,getApplicationContext());
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

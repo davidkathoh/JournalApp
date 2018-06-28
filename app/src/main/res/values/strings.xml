@@ -34,4 +34,10 @@
     <string name="menu_delete">delete</string>
     <string name="add_note">New Note</string>
     <string name="edit_note">Edit Note</string>
+    <string name="ab_entries_title">Diary Entries</string>
+    <string name="diary_entry_deleted">note deleted</string>
+    <string name="entry_added">note added</string>
+    <string name="empty_entry">note empty</string>
+    <string name="loading_message">connecting</string>
+    <string name="error_connect_message">unable to connect</string>
 </resources>

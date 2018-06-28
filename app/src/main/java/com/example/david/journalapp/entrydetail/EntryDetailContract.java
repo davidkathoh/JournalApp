@@ -11,12 +11,18 @@ import com.example.david.journalapp.BaseView;
 public interface EntryDetailContract {
 
     interface view extends BaseView<Presenter> {
-        void showEditNote(String noteId);
+        void showAddEditNote(String noteId);
+        void showDate(String date);
+        void showNote(String note);
+        void showDeleteNote();
+
 
 
     }
 
     interface Presenter extends BasePresenter {
+        void editNote();
+        void deleteNote();
 
 
 

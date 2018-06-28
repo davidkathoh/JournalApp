@@ -19,10 +19,12 @@ public class SignUpPresenter implements SignUPContract.Presenter{
 
     @Override
     public void signup(String name, String mail, String password) {
+        mView.showLoadingIndicator();
         mAuth.createUserWithEmailAndPassword(mail,password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         FirebaseUser user = mAuth.getCurrentUser();
+                        mView.hideLoadingIndicator();
                         mView.launchMainActivity();
                     }else {
                         mView.showErrorMessage();

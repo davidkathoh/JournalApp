@@ -2,15 +2,8 @@ package com.example.david.journalapp.addedditentry;
 
 import android.content.Context;
 
-import com.example.david.journalapp.BasePresenter;
-import com.example.david.journalapp.BaseView;
 import com.example.david.journalapp.data.Note;
 import com.example.david.journalapp.data.source.local.LocalDb;
-import com.example.david.journalapp.data.source.local.NoteDao;
-import com.example.david.journalapp.launcher.LauncherContract;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
@@ -54,6 +47,7 @@ public class AddEditPresenter  implements AddEditContract.Presenter{
     }
 
     private void populateNote() {
+
         Note note = mDb.mNoteDaoDao().getNote(mNoteId);
         mView.setNote(note.getNotedescription());
         mView.setNoteDate(note.getUpdateDate());

@@ -2,10 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.david.journalapp">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -26,11 +23,15 @@
         </activity>
         <activity
             android:name=".userlogin.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_login" />
-        <activity android:name=".userSignup.SignUpActivity" />
+        <activity android:name=".userSignup.SignUpActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".diaryentries.EntriesActivity" />
-        <activity android:name=".addedditentry.AddEditActivity" />
-        <activity android:name=".entrydetail.EntryDetailActivity"></activity>
+        <activity android:name=".addedditentry.AddEditActivity"
+            android:parentActivityName=".diaryentries.EntriesActivity"/>
+        <activity android:name=".entrydetail.EntryDetailActivity"
+            android:parentActivityName=".diaryentries.EntriesActivity"></activity>
     </application>
 
 </manifest>

@@ -55,6 +55,7 @@ public class LoginPresenter implements LoginContract.Presenter, GoogleApiClient.
                         mView.hideLoadingIndicator();
                         mView.lauchMainActivity();
                     }else {
+                        mView.hideLoadingIndicator();
                         mView.showErrorMessage();
                     }
                         }

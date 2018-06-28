@@ -11,17 +11,17 @@ import com.example.david.journalapp.util.ActivityUtils;
 public class AddEditActivity extends AppCompatActivity {
     public static final int REQUEST_ADD_NOTE = 2;
     private AddEditPresenter mEditPresenter;
+    ActionBar ab;
 
-    private ActionBar mActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit);
 
-        mActionBar = getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.setDisplayShowHomeEnabled(true);
+       ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
 
         String noteId = getIntent().getStringExtra(AddEditFragment.ARGUMENT_EDIT_NOTE_ID);
         setToolbarTitle(noteId);
@@ -38,9 +38,9 @@ public class AddEditActivity extends AppCompatActivity {
 
     private void setToolbarTitle(@Nullable String noteId) {
         if(noteId == null) {
-            mActionBar.setTitle(R.string.add_note);
+            ab.setTitle(R.string.add_note);
         } else {
-            mActionBar.setTitle(R.string.edit_note);
+            ab.setTitle(R.string.edit_note);
         }
     }
 

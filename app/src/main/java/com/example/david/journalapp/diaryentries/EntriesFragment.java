@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +35,7 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
     private LinearLayout mLinearLayout;
 
 
+
     public EntriesFragment() {
 
     }
@@ -52,20 +55,21 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_entries, container, false);
+
         mRecyclerView = view.findViewById(R.id.entries_recycleview);
         mAddButton = view.findViewById(R.id.fab_new_entry);
         mLinearLayout = view.findViewById(R.id.noEnty);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-        mPresenter.loadEntries();
 
         mAddButton.setOnClickListener(view1 -> lauchAddActivity());
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.subscribe();
     }
 
     @Override
@@ -75,6 +79,12 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
 
     @Override
     public void setAdapter(List<Note> notes) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+
         mEntryAdapter = new EntryAdapter(notes);
         mRecyclerView.setAdapter(mEntryAdapter);
     }
