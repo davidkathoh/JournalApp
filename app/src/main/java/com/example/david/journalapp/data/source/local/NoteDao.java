@@ -1,5 +1,6 @@
 package com.example.david.journalapp.data.source.local;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -20,13 +21,13 @@ public interface NoteDao {
     void saveNote(Note note);
 
     @Query("SELECT * FROM Note")
-    List<Note> getAllEntries();
+    LiveData<List<Note>> getAllEntries();
 
     @Update
     void upDateNote(Note note);
 
     @Query("SELECT * from Note where mId =:noteId")
-    Note getNote(String noteId);
+    LiveData<Note> getNote(String noteId);
 
     @Query("DELETE from Note where mId = :uid")
     void deleteNote(String uid);

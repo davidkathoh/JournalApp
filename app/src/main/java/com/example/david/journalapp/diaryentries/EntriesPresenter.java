@@ -1,7 +1,11 @@
 package com.example.david.journalapp.diaryentries;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.david.journalapp.data.Note;
@@ -27,13 +31,15 @@ public class EntriesPresenter  implements EntriesContract.Presenter {
     private DatabaseReference mReference;
     private FirebaseDatabase mDatabase;
     private LocalDb mDb;
-    private List<Note> mNoteList;
+
+    private Context mContext;
 
     public EntriesPresenter(EntriesContract.view view, Context applicationContext) {
         mView = view;
         mDb = LocalDb.getLocalDb(applicationContext);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
+        mContext = applicationContext;
         mReference = mDatabase.getReference().child(mAuth.getCurrentUser().getUid());
         mView.setPresenter(this);
     }
@@ -51,13 +57,16 @@ public class EntriesPresenter  implements EntriesContract.Presenter {
 
     @Override
     public void loadEntries() {
-        mNoteList = new ArrayList<>();
-        mNoteList = mDb.mNoteDaoDao().getAllEntries();
+      final LiveData<List<Note>> mNoteList = mDb.mNoteDaoDao().getAllEntries();
+        mNoteList.observe((LifecycleOwner) mContext, notes -> {
+            if (notes.isEmpty()) {
+                mView.showEmpyEntries();
+            }
+            mView.setAdapter(notes);
 
-        if (mNoteList.isEmpty()) {
-            mView.showEmpyEntries();
-        }
-        mView.setAdapter(mNoteList);
+        });
+
+
 
     }
 
