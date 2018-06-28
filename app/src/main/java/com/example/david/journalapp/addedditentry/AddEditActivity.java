@@ -9,6 +9,7 @@ import com.example.david.journalapp.R;
 import com.example.david.journalapp.util.ActivityUtils;
 
 public class AddEditActivity extends AppCompatActivity {
+    public static final int REQUEST_ADD_NOTE = 2;
     private AddEditPresenter mEditPresenter;
 
     private ActionBar mActionBar;

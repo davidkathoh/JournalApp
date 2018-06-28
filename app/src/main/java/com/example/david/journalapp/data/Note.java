@@ -3,6 +3,7 @@ package com.example.david.journalapp.data;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Entity
 public class Note {
     @PrimaryKey
+    @NonNull
     private String mId;
     private String mNotedescription;
     private String mUpdateDate;

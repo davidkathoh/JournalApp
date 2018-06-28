@@ -24,6 +24,6 @@ public interface NoteDao {
     @Update
     void upDateNote(Note note);
 
-    @Query("SELECT Note where mId =:noteId")
+    @Query("SELECT * from Note where mId =:noteId")
     Note getNote(String noteId);
 }

@@ -1,6 +1,7 @@
 package com.example.david.journalapp.addedditentry;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -63,8 +64,14 @@ public class AddEditFragment extends Fragment implements AddEditContract.view{
     }
 
     @Override
-    public void showEntryList() {
+    public void setNoteDate(String noteDate) {
 
+    }
+
+    @Override
+    public void showEntryList() {
+        getActivity().setResult(Activity.RESULT_OK);
+        getActivity().finish();
     }
 
     @Override

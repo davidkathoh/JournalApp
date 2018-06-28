@@ -82,7 +82,7 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
     @Override
     public void lauchAddActivity() {
         Intent launchAdd = new Intent(getContext(), AddEditActivity.class);
-        startActivity(launchAdd);
+       startActivityForResult(launchAdd,AddEditActivity.REQUEST_ADD_NOTE);
     }
 
     @Override
@@ -145,6 +145,7 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
             @Override
             public void onClick(View view) {
                 String uid = mNoteList.get(getAdapterPosition()).getId();
+                showDetailUI(uid);
 
 
             }

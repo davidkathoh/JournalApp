@@ -17,16 +17,17 @@
         android:id="@+id/noEnty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <ImageView
             android:id="@+id/noTasksIcon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            android:src="@drawable/common_google_signin_btn_icon_dark" />
+            android:src="@drawable/ic_thinking_box" />
 
         <TextView
             android:id="@+id/noTasksMain"
