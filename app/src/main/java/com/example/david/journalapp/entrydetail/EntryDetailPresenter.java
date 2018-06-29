@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
 import com.example.david.journalapp.data.Note;
@@ -42,9 +43,13 @@ public class EntryDetailPresenter implements EntryDetailContract.Presenter{
 
       LiveData<Note> mNote = mDb.mNoteDaoDao().getNote(noteId);
       mNote.observe(fragmentActivity, note -> {
-         // mNote.removeObserver();
-          mView.showDate(note.getUpdateDate());
-          mView.showNote(note.getNotedescription());
+          if (note!= null) {
+            //  String date = note.getUpdateDate();
+              mView.showDate(note.getUpdateDate());
+              mView.showNote(note.getNotedescription());
+          }else {
+              mView.showMissingData();
+          }
       });
 
 

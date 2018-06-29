@@ -1,4 +1,6 @@
-package com.example.david.journalapp.userSignup;
+package com.example.david.journalapp.signup;
+
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,10 +25,14 @@ public class SignUpPresenter implements SignUPContract.Presenter{
         mAuth.createUserWithEmailAndPassword(mail,password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
-                        FirebaseUser user = mAuth.getCurrentUser();
+                        //FirebaseUser user = mAuth.getCurrentUser();
                         mView.hideLoadingIndicator();
                         mView.launchMainActivity();
                     }else {
+                        task.addOnFailureListener(v->{
+                            Log.e("ERROR",v.getMessage());
+                        });
+                        mView.hideLoadingIndicator();
                         mView.showErrorMessage();
                     }
                 });

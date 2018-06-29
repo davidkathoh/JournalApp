@@ -25,6 +25,6 @@ public class EntriesActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),entriesFragment,R.id.mainFrame);
         }
 
-        mPresenter = new EntriesPresenter(entriesFragment,getApplicationContext());
+        mPresenter = new EntriesPresenter(entriesFragment);
     }
 }

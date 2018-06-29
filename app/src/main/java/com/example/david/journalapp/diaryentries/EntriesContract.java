@@ -1,12 +1,10 @@
 package com.example.david.journalapp.diaryentries;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.example.david.journalapp.BasePresenter;
 import com.example.david.journalapp.BaseView;
 import com.example.david.journalapp.data.Note;
-import com.example.david.journalapp.userlogin.LoginContract;
 
 import java.util.List;
 

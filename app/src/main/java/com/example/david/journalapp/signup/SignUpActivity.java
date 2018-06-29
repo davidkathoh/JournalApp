@@ -1,4 +1,4 @@
-package com.example.david.journalapp.userSignup;
+package com.example.david.journalapp.signup;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

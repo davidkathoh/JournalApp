@@ -30,26 +30,20 @@ import java.util.List;
 
 public class EntriesPresenter  implements EntriesContract.Presenter {
     private EntriesContract.view mView;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mReference;
-    private FirebaseDatabase mDatabase;
-    private LocalDb mDb;
 
-    private Context mContext;
+    private  List<Note> mNotes;
 
-    public EntriesPresenter(EntriesContract.view view, Context applicationContext) {
+
+    public EntriesPresenter(EntriesContract.view view) {
         mView = view;
-        mDb = LocalDb.getLocalDb(applicationContext);
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
-        mContext = applicationContext;
-        mReference = mDatabase.getReference().child(mAuth.getCurrentUser().getUid());
         mView.setPresenter(this);
     }
 
     @Override
     public void subscribe() {
-
+        if (mNotes.isEmpty()){
+            mView.showEmpyEntries();
+        }
 
     }
 
@@ -62,9 +56,7 @@ public class EntriesPresenter  implements EntriesContract.Presenter {
     public void loadEntries(FragmentActivity fragmentActivity) {
         EntriesViewModel mNoteList = ViewModelProviders.of(fragmentActivity).get(EntriesViewModel.class);
         mNoteList.getNotes().observe(fragmentActivity, notes -> {
-            if (notes.isEmpty()) {
-                mView.showEmpyEntries();
-            }
+           mNotes = notes;
             mView.setAdapter(notes);
 
         });

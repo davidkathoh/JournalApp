@@ -111,10 +111,17 @@ public class EntryDetailFragment extends Fragment implements EntryDetailContract
 
     @Override
     public void showDeleteNote() {
-        Toast.makeText(getContext(),R.string.diary_entry_deleted,Toast.LENGTH_LONG).show();
-        //getActivity().finish();
+        //Toast.makeText(getContext(),R.string.diary_entry_deleted,Toast.LENGTH_LONG).show();
+        getActivity().finish();
 
     }
+
+    @Override
+    public void showMissingData() {
+        mDateTextView.setText("");
+        mNoteTextView.setText(getString(R.string.no_data));
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_EDIT) {

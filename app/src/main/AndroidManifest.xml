@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".userlogin.LoginActivity"
+            android:name=".login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_login" />
-        <activity android:name=".userSignup.SignUpActivity"
+        <activity android:name=".signup.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".diaryentries.EntriesActivity" />
         <activity android:name=".addedditentry.AddEditActivity"

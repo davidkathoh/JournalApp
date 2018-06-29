@@ -20,6 +20,7 @@ public class EntryDetailActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
+        ab.setTitle(R.string.entry_detail);
 
         String noteId = getIntent().getStringExtra(EXTRA_NOTE_ID);
 

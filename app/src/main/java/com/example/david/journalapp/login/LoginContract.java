@@ -1,26 +1,32 @@
-package com.example.david.journalapp.userSignup;
+package com.example.david.journalapp.login;
+
+
+
+import android.support.v4.app.Fragment;
 
 import com.example.david.journalapp.BasePresenter;
 import com.example.david.journalapp.BaseView;
-import com.example.david.journalapp.launcher.LauncherContract;
+
 
 /**
  * Created by david on 6/26/18.
  */
 
-public interface SignUPContract {
+public interface LoginContract {
     interface view extends BaseView<Presenter> {
+
         void showErrorMessage();
-        void launchMainActivity();
-        void  showLoadingIndicator();
+        void showLoadingIndicator();
         void hideLoadingIndicator();
 
 
+        void lauchMainActivity();
     }
 
     interface Presenter extends BasePresenter {
-        void signup(String name,String mail,String password);
 
+        void loginWithMail(String mail,String password);
+        void loginWithGoogle(Fragment fragment);
 
     }
 }

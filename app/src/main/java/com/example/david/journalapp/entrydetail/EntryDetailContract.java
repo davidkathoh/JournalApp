@@ -19,7 +19,7 @@ public interface EntryDetailContract {
         void showDeleteNote();
 
 
-
+        void showMissingData();
     }
 
     interface Presenter extends BasePresenter {

@@ -70,6 +70,7 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
     public void onResume() {
         super.onResume();
 
+
     }
 
     @Override
@@ -79,14 +80,17 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
 
     @Override
     public void setAdapter(List<Note> notes) {
+        if (notes.isEmpty()){
+            showEmpyEntries();
+        }
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-
         mEntryAdapter = new EntryAdapter(notes);
         mRecyclerView.setAdapter(mEntryAdapter);
+
     }
 
     @Override

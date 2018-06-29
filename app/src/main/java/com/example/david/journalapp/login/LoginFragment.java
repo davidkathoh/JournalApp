@@ -1,4 +1,4 @@
-package com.example.david.journalapp.userSignup;
+package com.example.david.journalapp.login;
 
 
 import android.app.ProgressDialog;
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.david.journalapp.R;
+import com.example.david.journalapp.diaryentries.EntriesActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -29,26 +29,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 
-public class SignUpFragment extends Fragment  implements  SignUPContract.view, GoogleApiClient.OnConnectionFailedListener {
+public class LoginFragment extends Fragment implements LoginContract.view, GoogleApiClient.OnConnectionFailedListener {
     private TextInputEditText mUserEmail;
     private TextInputEditText mUserPassWord;
-    private TextInputEditText mUserName;
-    private Button mCreateUser;
-    private Button mSignupWithGoogle;
+    private Button mLoginWithEmail;
+    private Button mLoginWithGoogle;
     GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
+    private LoginContract.Presenter mLoginPresenter;
     private FirebaseAuth mAuth;
-    private SignUPContract.Presenter mPresenter;
     private ProgressDialog mProgressDialog;
 
 
-    public SignUpFragment() {
+    public LoginFragment() {
 
     }
 
-
-    public static SignUpFragment newInstance() {
-     return    new SignUpFragment();
+    public static LoginFragment newInstance() {
+        return new LoginFragment();
     }
 
     @Override
@@ -60,27 +58,23 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view, G
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        initloginWithGoogle();
         mAuth = FirebaseAuth.getInstance();
         mUserEmail = view.findViewById(R.id.ed_mail);
         mUserPassWord = view.findViewById(R.id.ed_password);
-        mUserName = view.findViewById(R.id.ed_name);
-        mCreateUser = view.findViewById(R.id.btn_create_account);
-        mSignupWithGoogle = view.findViewById(R.id.btn_signup_with_google);
-        initloginWithGoogle();
-        mCreateUser.setOnClickListener(v->login());
-        mSignupWithGoogle.setOnClickListener(view1 -> loginWithGoogle());
-        return view;
+        mLoginWithEmail = view.findViewById(R.id.btn_login_with_mail);
+        mLoginWithGoogle = view.findViewById(R.id.btn_login_with_google);
+        mLoginWithEmail.setOnClickListener(view1 -> signin());
+        mLoginWithGoogle.setOnClickListener(view1 -> loginWithGoogle());
+
+        return  view;
     }
 
     @Override
     public void showErrorMessage() {
-        Log.i("LOGIN","FAIL");
-    }
 
-    @Override
-    public void launchMainActivity() {
-        Log.i("LOGIN","SUCCESS");
+        Toast.makeText(getContext(),R.string.error_connect_message,Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -89,25 +83,25 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view, G
         mProgressDialog.setMessage(getString(R.string.loading_message));
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.show();
+
     }
 
     @Override
     public void hideLoadingIndicator() {
         mProgressDialog.hide();
     }
-    public void login(){
+
+    @Override
+    public void lauchMainActivity() {
+        Intent launchMainActivity = new Intent(getContext(), EntriesActivity.class);
+        startActivity(launchMainActivity);
+        getActivity().finish();
+        Log.i("LOGIN","SUCCESS");
+    }
+    public void signin(){
         String mail = mUserEmail.getText().toString();
-        String name = mUserName.getText().toString();
         String password = mUserPassWord.getText().toString();
-        if(TextUtils.isEmpty(mail)){
-            Toast.makeText(getContext(),"Please fill in the required fields",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(TextUtils.isEmpty(password)){
-            Toast.makeText(getContext(),"Please fill in the required fields",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        mPresenter.signup(name,mail,password);
+        mLoginPresenter.loginWithMail(mail,password);
     }
 
     public void  initloginWithGoogle(){
@@ -117,7 +111,7 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view, G
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-                .enableAutoManage(getActivity(), this)
+                .enableAutoManage(getActivity(),this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .build();
         mGoogleApiClient.connect();
@@ -141,7 +135,7 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view, G
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 hideLoadingIndicator();
-                showErrorMessage();
+              showErrorMessage();
                 // ...
             }
         }
@@ -155,7 +149,7 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view, G
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         hideLoadingIndicator();
-                      launchMainActivity();
+                        lauchMainActivity();
                     }else {
                         hideLoadingIndicator();
                         showErrorMessage();
@@ -164,12 +158,12 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view, G
     }
 
     @Override
-    public void setPresenter(SignUPContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(LoginContract.Presenter presenter) {
+        mLoginPresenter = presenter;
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        showErrorMessage();
+
     }
 }

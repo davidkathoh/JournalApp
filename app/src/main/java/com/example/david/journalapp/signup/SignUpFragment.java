@@ -1,4 +1,4 @@
-package com.example.david.journalapp.userlogin;
+package com.example.david.journalapp.signup;
 
 
 import android.app.ProgressDialog;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,39 +21,35 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
-
-public class LoginFragment extends Fragment implements LoginContract.view, GoogleApiClient.OnConnectionFailedListener {
+public class SignUpFragment extends Fragment  implements  SignUPContract.view, GoogleApiClient.OnConnectionFailedListener {
     private TextInputEditText mUserEmail;
     private TextInputEditText mUserPassWord;
-    private Button mLoginWithEmail;
-    private Button mLoginWithGoogle;
+    private TextInputEditText mUserName;
+    private Button mCreateUser;
+    private Button mSignupWithGoogle;
     GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
-    private LoginContract.Presenter mLoginPresenter;
     private FirebaseAuth mAuth;
+    private SignUPContract.Presenter mPresenter;
     private ProgressDialog mProgressDialog;
 
 
-    public LoginFragment() {
+    public SignUpFragment() {
 
     }
 
-    public static LoginFragment newInstance() {
-        return new LoginFragment();
+
+    public static SignUpFragment newInstance() {
+     return    new SignUpFragment();
     }
 
     @Override
@@ -64,23 +61,30 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        initloginWithGoogle();
+        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         mAuth = FirebaseAuth.getInstance();
         mUserEmail = view.findViewById(R.id.ed_mail);
         mUserPassWord = view.findViewById(R.id.ed_password);
-        mLoginWithEmail = view.findViewById(R.id.btn_login_with_mail);
-        mLoginWithGoogle = view.findViewById(R.id.btn_login_with_google);
-        mLoginWithEmail.setOnClickListener(view1 -> signin());
-        mLoginWithGoogle.setOnClickListener(view1 -> loginWithGoogle());
-
-        return  view;
+        mUserName = view.findViewById(R.id.ed_name);
+        mCreateUser = view.findViewById(R.id.btn_create_account);
+        mSignupWithGoogle = view.findViewById(R.id.btn_signup_with_google);
+        initloginWithGoogle();
+        mCreateUser.setOnClickListener(v->login());
+        mSignupWithGoogle.setOnClickListener(view1 -> loginWithGoogle());
+        return view;
     }
 
     @Override
     public void showErrorMessage() {
-
         Toast.makeText(getContext(),R.string.error_connect_message,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void launchMainActivity() {
+
+        Intent launchMainActivity = new Intent(getContext(), EntriesActivity.class);
+        startActivity(launchMainActivity);
+        getActivity().finish();
     }
 
     @Override
@@ -89,24 +93,25 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
         mProgressDialog.setMessage(getString(R.string.loading_message));
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.show();
-
     }
 
     @Override
     public void hideLoadingIndicator() {
         mProgressDialog.hide();
     }
-
-    @Override
-    public void lauchMainActivity() {
-        Intent launchMainActivity = new Intent(getContext(), EntriesActivity.class);
-        startActivity(launchMainActivity);
-        Log.i("LOGIN","SUCCESS");
-    }
-    public void signin(){
+    public void login(){
         String mail = mUserEmail.getText().toString();
+        String name = mUserName.getText().toString();
         String password = mUserPassWord.getText().toString();
-        mLoginPresenter.loginWithMail(mail,password);
+//        if(TextUtils.isEmpty(mail)){
+//            Toast.makeText(getContext(),"Please fill in the required fields",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        if(TextUtils.isEmpty(password)){
+//            Toast.makeText(getContext(),"Please fill in the required fields",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+        mPresenter.signup(name,mail,password);
     }
 
     public void  initloginWithGoogle(){
@@ -116,7 +121,7 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-                .enableAutoManage(getActivity(),this)
+                .enableAutoManage(getActivity(), this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .build();
         mGoogleApiClient.connect();
@@ -140,7 +145,7 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 hideLoadingIndicator();
-              showErrorMessage();
+                showErrorMessage();
                 // ...
             }
         }
@@ -154,7 +159,7 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         hideLoadingIndicator();
-                        lauchMainActivity();
+                      launchMainActivity();
                     }else {
                         hideLoadingIndicator();
                         showErrorMessage();
@@ -163,12 +168,12 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
     }
 
     @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
-        mLoginPresenter = presenter;
+    public void setPresenter(SignUPContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        showErrorMessage();
     }
 }
