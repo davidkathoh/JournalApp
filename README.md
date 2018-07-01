@@ -37,9 +37,12 @@ The challenge aims to make an application where users can pen down their thought
   
   ##SCREENSHOP
   
-  <p float="https://github.com/davidkathoh/JournalApp/raw/master/screenshot/Screenshot_1530197266.png" width="100" />
+  <p float="left">
+  <img src="https://github.com/davidkathoh/JournalApp/raw/master/screenshot/Screenshot_1530197266.png" width="100" />
   <img src="https://github.com/davidkathoh/JournalApp/raw/master/screenshot/Screenshot_1530197799.png" width="100" /> 
   <img src="https://github.com/davidkathoh/JournalApp/raw/master/screenshot/Screenshot_20180628-171348.png" width="100" />
+  <img src="https://github.com/davidkathoh/JournalApp/raw/master/screenshot/Screenshot_20180628-170156.png" width="100" /> 
+  <img src="/https://github.com/davidkathoh/JournalApp/raw/master/screenshot/Screenshot_20180628-170203.png" width="100" />
 </p>
   
   
