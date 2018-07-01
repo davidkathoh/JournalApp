@@ -1,6 +1,4 @@
-package com.example.david.journalapp.launcher;
-
-import android.view.View;
+package com.example.david.journalapp.uitest;
 
 import com.example.david.journalapp.BasePresenter;
 import com.example.david.journalapp.BaseView;

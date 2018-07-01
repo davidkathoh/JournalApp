@@ -1,4 +1,4 @@
-package com.example.david.journalapp.launcher;
+package com.example.david.journalapp.uitest;
 
 import android.content.Intent;
 import android.os.Bundle;

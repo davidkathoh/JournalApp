@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -25,7 +24,7 @@ import com.example.david.journalapp.R;
 import com.example.david.journalapp.addedditentry.AddEditActivity;
 import com.example.david.journalapp.data.Note;
 import com.example.david.journalapp.entrydetail.EntryDetailActivity;
-import com.example.david.journalapp.launcher.LauncherActivity;
+import com.example.david.journalapp.uitest.LauncherActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;

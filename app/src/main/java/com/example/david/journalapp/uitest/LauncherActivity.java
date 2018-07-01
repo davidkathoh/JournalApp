@@ -1,4 +1,4 @@
-package com.example.david.journalapp.launcher;
+package com.example.david.journalapp.uitest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

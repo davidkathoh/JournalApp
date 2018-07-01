@@ -1,4 +1,4 @@
-package com.example.david.journalapp.launcher;
+package com.example.david.journalapp.uitest;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
