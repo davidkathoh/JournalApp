@@ -42,4 +42,5 @@
     <string name="error_connect_message">unable to connect</string>
     <string name="entry_detail">Reading</string>
     <string name="no_data">No data</string>
+    <string name="signout_menu">signout</string>
 </resources>

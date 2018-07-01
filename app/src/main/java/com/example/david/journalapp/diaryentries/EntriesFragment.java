@@ -13,6 +13,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -22,6 +25,8 @@ import com.example.david.journalapp.R;
 import com.example.david.journalapp.addedditentry.AddEditActivity;
 import com.example.david.journalapp.data.Note;
 import com.example.david.journalapp.entrydetail.EntryDetailActivity;
+import com.example.david.journalapp.launcher.LauncherActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -55,12 +60,13 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_entries, container, false);
-
+             setHasOptionsMenu(true);
         mRecyclerView = view.findViewById(R.id.entries_recycleview);
         mAddButton = view.findViewById(R.id.fab_new_entry);
         mLinearLayout = view.findViewById(R.id.noEnty);
 
         mPresenter.loadEntries(getActivity());
+
         mAddButton.setOnClickListener(view1 -> lauchAddActivity());
 
         return view;
@@ -69,7 +75,7 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
     @Override
     public void onResume() {
         super.onResume();
-
+        //mPresenter.subscribe();
 
     }
 
@@ -80,9 +86,7 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
 
     @Override
     public void setAdapter(List<Note> notes) {
-        if (notes.isEmpty()){
-            showEmpyEntries();
-        }
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -90,6 +94,9 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         mEntryAdapter = new EntryAdapter(notes);
         mRecyclerView.setAdapter(mEntryAdapter);
+        if (notes.isEmpty()){
+            showEmpyEntries();
+        }
 
     }
 
@@ -97,6 +104,7 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
     public void lauchAddActivity() {
         Intent launchAdd = new Intent(getContext(), AddEditActivity.class);
        startActivityForResult(launchAdd,AddEditActivity.REQUEST_ADD_NOTE);
+
     }
 
     @Override
@@ -112,9 +120,28 @@ public class EntriesFragment extends Fragment implements EntriesContract.view{
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_signout){
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getContext(), LauncherActivity.class));
+            getActivity().finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.action_sign_out,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public void setPresenter(EntriesContract.Presenter presenter) {
         mPresenter = presenter;
     }
+
+
     public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
             List<Note> mNoteList;
 
