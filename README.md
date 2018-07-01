@@ -1,6 +1,6 @@
 # Journal  App
 This app is created in other to complete the Andela Learning Community (ALC) #7DaysofCodeChallenge.
-The challenge aims to make an application where users can pen down their thoughts and feelings. [Download the apk file](https://link.to.apk/)
+The challenge aims to make an application where users can pen down their thoughts and feelings. [Download the apk file](https://github.com/davidkathoh/JournalApp/raw/master/journalApp.apk)
 
 ## What you need
   The Journal  App uses the following dependencies:
@@ -34,6 +34,16 @@ The challenge aims to make an application where users can pen down their thought
   * Android Studio 3.0.1
   * Java 8
   * Gradle 3.0.1
+  
+  ##SCREENSHOP
+  
+  <p float="left">
+  <img src="/https://raw.githubusercontent.com/davidkathoh/JournalApp/master/screenshot/Screenshot_1530197266.png" width="100" />
+  <img src="https://github.com/davidkathoh/JournalApp/raw/master/screenshot/Screenshot_1530197799.png" width="100" /> 
+  <img src="https://github.com/davidkathoh/JournalApp/raw/master/screenshot/Screenshot_20180628-171348.png" width="100" />
+</p>
+  
+  
   ## Author
   **David Kathoh** [Fiind me here](https://twitter.com/DavidKathoh)
   
