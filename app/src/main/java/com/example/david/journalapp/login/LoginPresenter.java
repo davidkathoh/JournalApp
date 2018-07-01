@@ -40,10 +40,10 @@ public class LoginPresenter implements LoginContract.Presenter, GoogleApiClient.
         mAuth.signInWithEmailAndPassword(mail, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
-                        mView.hideLoadingIndicator();
+                       // mView.hideLoadingIndicator();
                         mView.lauchMainActivity();
                     }else {
-                        mView.hideLoadingIndicator();
+                       // mView.hideLoadingIndicator();
                         mView.showErrorMessage();
                     }
                         }

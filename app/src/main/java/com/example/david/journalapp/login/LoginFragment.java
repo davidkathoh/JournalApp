@@ -79,16 +79,17 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
 
     @Override
     public void showLoadingIndicator() {
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage(getString(R.string.loading_message));
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.show();
+//        mProgressDialog = new ProgressDialog(getActivity());
+//        mProgressDialog.setMessage(getString(R.string.loading_message));
+//        mProgressDialog.setIndeterminate(true);
+//        mProgressDialog.show();
 
     }
 
     @Override
     public void hideLoadingIndicator() {
-        mProgressDialog.hide();
+
+//        mProgressDialog.hide();
     }
 
     @Override
@@ -134,7 +135,7 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                hideLoadingIndicator();
+               // hideLoadingIndicator();
               showErrorMessage();
                 // ...
             }
@@ -148,10 +149,10 @@ public class LoginFragment extends Fragment implements LoginContract.view, Googl
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
-                        hideLoadingIndicator();
+                        //hideLoadingIndicator();
                         lauchMainActivity();
                     }else {
-                        hideLoadingIndicator();
+                      //  hideLoadingIndicator();
                         showErrorMessage();
                     }
                 });

@@ -21,7 +21,7 @@ public class SignUpPresenter implements SignUPContract.Presenter{
 
     @Override
     public void signup(String name, String mail, String password) {
-        mView.showLoadingIndicator();
+        //mView.showLoadingIndicator();
         mAuth.createUserWithEmailAndPassword(mail,password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
@@ -32,7 +32,7 @@ public class SignUpPresenter implements SignUPContract.Presenter{
                         task.addOnFailureListener(v->{
                             Log.e("ERROR",v.getMessage());
                         });
-                        mView.hideLoadingIndicator();
+                      //  mView.hideLoadingIndicator();
                         mView.showErrorMessage();
                     }
                 });

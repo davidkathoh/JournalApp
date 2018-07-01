@@ -92,12 +92,12 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view, G
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage(getString(R.string.loading_message));
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.show();
+   //     mProgressDialog.show();
     }
 
     @Override
     public void hideLoadingIndicator() {
-        mProgressDialog.hide();
+       // mProgressDialog.hide();
     }
     public void login(){
         String mail = mUserEmail.getText().toString();
@@ -127,7 +127,7 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view, G
         mGoogleApiClient.connect();
     }
     public void loginWithGoogle(){
-        showLoadingIndicator();
+    //        showLoadingIndicator();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
