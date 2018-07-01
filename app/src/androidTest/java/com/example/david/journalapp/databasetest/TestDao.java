@@ -1,5 +1,6 @@
 package com.example.david.journalapp.databasetest;
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.lifecycle.Observer;
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -25,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -34,10 +36,11 @@ import static org.mockito.Mockito.verify;
 public class TestDao {
     LocalDb mDb;
     Note mNote;
+    NoteDao mDao;
 
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
-    @Mock
-    private Observer<List<Note>> mObserver;
 
     @Before
     public void initialize() throws Exception{
@@ -46,6 +49,7 @@ public class TestDao {
         mDb = Room.inMemoryDatabaseBuilder(context,LocalDb.class)
                 .allowMainThreadQueries()
                 .build();
+        mDao =mDb.mNoteDaoDao();
     }
     @After
     public void clauseDb(){
@@ -53,15 +57,30 @@ public class TestDao {
     }
 
     @Test
-    public void insert_select_Test(){
-        mNote = new Note("this is my note");
-       mDb.mNoteDaoDao().getAllEntries().observeForever(mObserver);
-       mDb.mNoteDaoDao().saveNote(mNote);
-       verify(mObserver).onChanged(Collections.singletonList(mNote));
-
+    public void onFetchingNotes_shouldGetEmptyList_IfTable_IsEmpty() throws InterruptedException {
+        List < Note > noteList = LiveDataTestUtil.getValue(mDao.getAllEntries());
+        assertTrue(noteList.isEmpty());
+    }
+    @Test
+    public void onUpdatingANote_checkIf_UpdateHappensCorrectly() throws InterruptedException {
+        String newNote = "Original note";
+        String upDateNote = "update_note";
+        Note note = new Note(newNote);
+        mDao.saveNote(note);
+        note.setNotedescription(upDateNote);
+        mDao.upDateNote(note);
+        assertEquals(1, LiveDataTestUtil.getValue(mDao.getAllEntries()).size());
+        assertEquals(upDateNote,
+                LiveDataTestUtil.getValue(mDao.getNote(note.getId())).getNotedescription());
+    }
+    @Test
+    public void check_if_note_isDeeleted() throws InterruptedException{
+        Note  note = new Note("description");
+        mDao.saveNote(note);
+        mDao.deleteNote(note.getId());
+        assertTrue(LiveDataTestUtil.getValue(mDao.getAllEntries()).isEmpty());
 
     }
-
 
 
 }

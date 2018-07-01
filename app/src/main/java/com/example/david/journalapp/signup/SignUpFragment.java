@@ -166,6 +166,13 @@ public class SignUpFragment extends Fragment  implements  SignUPContract.view, G
                     }
                 });
     }
+    @Override
+    public void onPause(){
+
+        super.onPause();
+        if(mProgressDialog != null)
+            mProgressDialog.dismiss();
+    }
 
     @Override
     public void setPresenter(SignUPContract.Presenter presenter) {
